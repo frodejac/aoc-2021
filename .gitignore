@@ -1,0 +1,12 @@
+# IDE file(s)
+.idea
+
+/_build/
+/cover/
+/deps/
+/doc/
+/.fetch
+erl_crash.dump
+*.ez
+aoc_2021-*.tar
+/tmp/
