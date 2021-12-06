@@ -87,8 +87,39 @@ defmodule Day4 do
     end
   end
 
+  def bingo_til_you_drop(boards, [head | tail]) do
+    completed_boards_in_order = bingo_til_you_drop(boards, head, tail)
+  end
 
-  def puzzle1 do
+  def bingo_til_you_drop(boards, number, [head | tail]) when length(boards) > 1 do
+    marked_boards = mark_number(number, boards)
+    case check(marked_boards) do
+      [] ->
+        bingo_til_you_drop(marked_boards, head, tail)
+      completed_boards ->
+        marked_boards
+        |> Enum.filter(&Enum.member?(Enum.map(completed_boards, fn {board, completion_info} -> board end), &1))
+        |> bingo_til_you_drop(head, tail)
+    end
+  end
+
+  def bingo_til_you_drop(boards, number, [head | tail]) do
+    marked_boards = mark_number(number, boards)
+    case check(marked_boards) do
+      [] -> bingo_til_you_drop(marked_boards, head, tail)
+      [{board, completed_info}] -> {board, completed_info, number}
+    end
+  end
+
+  def bingo_til_you_drop(boards, number, []) do
+    marked_boards = mark_number(number, boards)
+    case check(marked_boards) do
+      [] -> nil
+      [{board, completed_info}] -> {board, completed_info, number}
+    end
+  end
+
+  def setup do
     {numbers, boards} = File.stream!("./input/day4/input1.txt")
                         |> Enum.split(1)
 
@@ -100,12 +131,25 @@ defmodule Day4 do
               |> Enum.at(0)
               |> String.split(",")
               |> Enum.map(&String.to_integer(&1, 10))
+    {numbers, boards}
+  end
 
+  def puzzle1 do
+    {numbers, boards} = setup()
     {board, completed_info, winning_number} = bingo(boards, numbers)
     sum_unmarked = for {key, 0} <- board.match, reduce: 0 do
       acc -> acc + Map.get(board.board, key)
     end
     sum_unmarked * winning_number
+  end
+
+  def puzzle2 do
+    {numbers, boards} = setup()
+    {board, completed_info, winning_number} = bingo_til_you_drop(boards, numbers)
+    sum_unmarked = for {key, 0} <- board.match, reduce: 0 do
+      acc -> acc + Map.get(board.board, key)
+    end
+    {board, completed_info, sum_unmarked, winning_number}
   end
 
 end
