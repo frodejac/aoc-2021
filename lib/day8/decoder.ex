@@ -20,13 +20,13 @@ defmodule Day8.Decoder do
 
   # ---------------- PUZZLE 2 --------------------
 
-  def string_to_mapset(string) do
+  defp string_to_mapset(string) do
     string
     |> String.to_charlist
     |> MapSet.new
   end
 
-  def decipher_unique(signal) do
+  defp decipher_unique(signal) do
     Enum.reduce(
       signal,
       %{},
@@ -42,7 +42,7 @@ defmodule Day8.Decoder do
     )
   end
 
-  def decode(output, signal_map) do
+  defp decode(output, signal_map, :puzzle2) do
     output
     |> Enum.map(&Map.get(signal_map, string_to_mapset(&1)))
     |> Enum.map(&Integer.to_string/1)
@@ -50,39 +50,36 @@ defmodule Day8.Decoder do
     |> String.to_integer
   end
 
-  def decipher(signal, output) when is_list(signal) do
+  def decipher_and_decode(signal, output) do
     # Initialize signal map with well-known values
     signal_map = decipher_unique(signal)
+    # Filter out known values
     remaining_signal = Enum.filter(signal, fn s -> !(string_to_mapset(s) in Map.values(signal_map)) end)
-    decipher(remaining_signal, signal_map, output)
+    decipher_and_decode(remaining_signal, signal_map, output)
   end
 
-  def decipher(string, signal_map) when is_binary(string) do
+  def decipher_and_decode(signal, signal_map, output) do
+    # Fill out signal map
+    Enum.reduce(signal, signal_map, fn s, acc -> decipher(s, acc) end)
+    # Reverse signal map
+    |> Enum.reduce(%{}, fn {number, charset}, acc -> Map.put(acc, charset, number) end)
+    # Decode output
+    |> (&decode(output, &1, :puzzle2)).()
+  end
+
+  defp decipher(string, signal_map) when is_binary(string) do
+    # At this point, we should only have 5 or 6-length signals
     case String.length(string) do
-      6 -> decipher(string, signal_map, 6)
       5 -> decipher(string, signal_map, 5)
-      _ -> signal_map
+      6 -> decipher(string, signal_map, 6)
     end
   end
 
-  def decipher(signal, signal_map, output) when is_list(signal) and length(signal) == 0 do
-    # Reverse the signal map and decode output
-    signal_map
-    |> Enum.reduce(%{}, fn {number, charset}, acc -> Map.put(acc, charset, number) end)
-    |> (&decode(output, &1)).()
-  end
-
-  def decipher(signal, signal_map, output) when is_list(signal) do
-    signal_map = Enum.reduce(signal, signal_map, fn s, acc -> decipher(s, acc) end)
-    remaining_signal = Enum.filter(signal, fn s -> !(string_to_mapset(s) in Map.values(signal_map)) end)
-    decipher(remaining_signal, signal_map, output)
-  end
-
-  def decipher(string, signal_map, 6) do
-    # 6-length digits are 0, 6, 9
-    # If all segments in 4 are present in the signal, it must be a 9
-    # If all segments in 7 are present in the signal, it must be a 0
-    # Otherwise, it's a 6
+  defp decipher(string, signal_map, 6) do
+    # 6-length strings are one of {0, 6, 9}
+    # - If all segments in 4 are present in the signal, it must be a 9
+    # - If all segments in 7 are present in the signal, it must be a 0
+    # - Otherwise, it's a 6
 
     charset = string_to_mapset(string)
     cond do
@@ -92,12 +89,11 @@ defmodule Day8.Decoder do
     end
   end
 
-  def decipher(string, signal_map, 5) do
-    # 5-length digits are 2, 3, 5
-    # If all segments in 1 are present in the string, it must be a 3
-    # If 3 of the segments in 4 are present in the string, it must be a 5
-    # Otherwise, it's a 2
-
+  defp decipher(string, signal_map, 5) do
+    # 5-length strings are one of {2, 3, 5}
+    # - If all segments in 1 are present in the string, it must be a 3
+    # - If 3 of the segments in 4 are present in the string, it must be a 5
+    # - Otherwise, it's a 2
     charset = string_to_mapset(string)
     cond do
       MapSet.intersection(charset, Map.get(signal_map, 1)) == Map.get(signal_map, 1) -> Map.put(signal_map, 3, charset)

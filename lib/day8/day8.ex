@@ -34,7 +34,7 @@ defmodule Day8 do
 
   def puzzle2 do
     get_input()
-    |> Enum.map(&Decoder.decipher(&1.input, &1.output))
+    |> Enum.map(&Decoder.decipher_and_decode(&1.input, &1.output))
     |> Enum.reduce(0, fn num, acc -> acc + num end)
   end
 
