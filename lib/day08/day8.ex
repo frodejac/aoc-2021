@@ -19,8 +19,7 @@ defmodule Day08 do
   end
 
   def get_input() do
-    File.stream!("./input/day08/input.txt")
-    |> Stream.map(&String.trim/1)
+    Helpers.IO.stream_trimmed_lines("./input/day08/input.txt")
     |> Stream.map(&parse_line/1)
     |> Enum.to_list
   end

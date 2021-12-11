@@ -1,16 +1,6 @@
 defmodule Octopus do
 
-  defp neighbors({x, y}) do
-    up = {x, y + 1}
-    upleft = {x - 1, y + 1}
-    left = {x - 1, y}
-    downleft = {x - 1, y - 1}
-    down = {x, y - 1}
-    downright = {x + 1, y - 1}
-    right = {x + 1, y}
-    upright = {x + 1, y + 1}
-    [up, upleft, left, downleft, down, downright, right, upright]
-  end
+  alias Helpers.Geometry, as: Geometry
 
   defp count_flashes(octopi), do: Enum.count(octopi, fn {_, octopus} -> octopus > 9 end)
 
@@ -64,7 +54,7 @@ defmodule Octopus do
   def update(octopi, [head | tail]) do
     case Map.get(octopi, head) do
       # If octopus energy level == 9, increment and add neighbors to update queue
-      9 -> substep(Map.put(octopi, head, 10), tail ++ neighbors(head))
+      9 -> substep(Map.put(octopi, head, 10), tail ++ Geometry.neighbors(head))
       # Otherwise, just increment
       x -> substep(Map.put(octopi, head, x + 1), tail)
     end

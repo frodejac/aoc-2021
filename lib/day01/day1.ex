@@ -1,8 +1,6 @@
 defmodule Day01 do
-  def read_lines_as_integers(path) do
-    File.stream!(path)
-    |> Stream.map(&String.trim/1)
-    |> Enum.map(&String.to_integer/1)
+  def get_input do
+    Helpers.IO.read_lines_as_integers("./input/day01/input.txt")
   end
 
   def gradient_direction(a, b) do
@@ -34,12 +32,12 @@ defmodule Day01 do
   end
 
   def puzzle1() do
-    read_lines_as_integers("./input/day01/input.txt")
+    get_input()
     |> (fn [head | tail] -> count_positive_gradients(tail, head, 0) end).()
   end
 
   def puzzle2() do
-    read_lines_as_integers("./input/day01/input.txt")
+    get_input()
     |> window(3)
     |> (fn [head | tail] -> count_positive_gradients(tail, head, 0) end).()
   end

@@ -1,8 +1,6 @@
 use Bitwise, only_operators: true
 
 defmodule Day03 do
-  @moduledoc false
-
   # ------------- PUZZLE 1 -----------------
 
   def gamma(histogram) do
@@ -10,7 +8,6 @@ defmodule Day03 do
       cond do
         count[0] > count[1] -> "0"
         count[1] > count[0] -> "1"
-        True -> raise "Cannot determine binary digit"
       end
     end
     |> String.to_integer(2)
@@ -21,17 +18,13 @@ defmodule Day03 do
       cond do
         count[0] < count[1] -> "0"
         count[1] < count[0] -> "1"
-        True -> raise "Cannot determine binary digit"
       end
     end
     |> String.to_integer(2)
   end
 
   def puzzle1() do
-    histogram = File.stream!("./input/day03/input.txt")
-    |> Stream.map(&String.trim/1)
-    |> Stream.map(&String.split(&1, "", trim: true))
-    |> Stream.map(&Enum.map(&1, fn x -> String.to_integer(x) end))
+    histogram = Helpers.IO.stream_list_of_integers("./input/day03/input.txt")
     |> Stream.map(&Enum.with_index(&1))
     |> Stream.map(&Enum.reduce(&1, %{}, fn {bit, pos}, acc -> Map.update(acc, pos, %{%{0 => 0, 1 => 0} | bit => 1}, fn _ -> nil end) end))
     |> Enum.reduce(%{}, fn m, acc -> Map.merge(acc, m, fn _k, m1, m2 -> Map.merge(m1, m2, fn _k, v1, v2 -> v1 + v2 end) end ) end)
@@ -72,10 +65,7 @@ defmodule Day03 do
   end
 
   def puzzle2() do
-    data = File.stream!("./input/day03/input.txt")
-    |> Stream.map(&String.trim/1)
-    |> Stream.map(&String.to_integer(&1, 2))
-    |> Enum.to_list
+    data = Helpers.IO.read_lines_as_integers("./input/day03/input.txt", 2)
 
     ratings = %{
       oxygen: calculate_rating(data, &oxygen_generator_rating_cmp/1),
