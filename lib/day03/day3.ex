@@ -35,7 +35,6 @@ defmodule Day03 do
     |> Stream.map(&Enum.with_index(&1))
     |> Stream.map(&Enum.reduce(&1, %{}, fn {bit, pos}, acc -> Map.update(acc, pos, %{%{0 => 0, 1 => 0} | bit => 1}, fn _ -> nil end) end))
     |> Enum.reduce(%{}, fn m, acc -> Map.merge(acc, m, fn _k, m1, m2 -> Map.merge(m1, m2, fn _k, v1, v2 -> v1 + v2 end) end ) end)
-    |> IO.inspect
 
     rates = %{epsilon: epsilon(histogram), gamma: gamma(histogram)}
     rates.epsilon * rates.gamma

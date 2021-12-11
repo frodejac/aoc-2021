@@ -3,7 +3,7 @@ defmodule Day09 do
   alias Day09.LavaVents, as: LavaVents
 
   def get_input() do
-    File.stream!("./input/day9/input.txt")
+    File.stream!("./input/day09/input.txt")
     |> Stream.map(&String.trim/1)
     |> Stream.map(&String.split(&1, "", trim: true))
     |> Stream.map(&Enum.map(&1, fn s -> String.to_integer(s) end))
