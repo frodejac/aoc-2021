@@ -22,10 +22,6 @@ defmodule Day10.Score do
     |> (&Enum.at(&1, floor(length(&1) / 2))).()
   end
 
-  def score_line(added, :puzzle2) do
-    Enum.reduce(added, 0, fn char, acc -> (acc * 5) + score(char, :puzzle2) end)
-  end
-
   def score(char, :puzzle2) do
     case char do
       ")" -> 1
@@ -33,6 +29,10 @@ defmodule Day10.Score do
       "}" -> 3
       ">" -> 4
     end
+  end
+
+  def score_line(added, :puzzle2) do
+    Enum.reduce(added, 0, fn char, acc -> (acc * 5) + score(char, :puzzle2) end)
   end
 
 end
