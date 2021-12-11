@@ -10,7 +10,7 @@ defmodule Day11 do
          fn {array, y_idx} -> Enum.reduce(array, [], fn {value, x_idx}, acc -> List.insert_at(acc, -1, {{x_idx, y_idx}, value}) end)
          end
        )
-    |> Enum.reduce(%{}, fn {{x, y}, energy}, acc -> Map.put(acc, {x, y}, %Octopus{energy: energy, flashed: false}) end)
+    |> Enum.reduce(%{}, fn {{x, y}, energy}, acc -> Map.put(acc, {x, y}, energy) end)
   end
 
   def puzzle1() do

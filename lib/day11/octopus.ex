@@ -1,6 +1,4 @@
 defmodule Octopus do
-  @enforce_keys [:energy]
-  defstruct [:energy, flashed: false]
 
   defp neighbors({x, y}) do
     up = {x, y + 1}
@@ -14,6 +12,21 @@ defmodule Octopus do
     [up, upleft, left, downleft, down, downright, right, upright]
   end
 
+  defp count_flashes(octopi), do: Enum.count(octopi, fn {_, octopus} -> octopus > 9 end)
+
+  defp reset_flashed(octopi) do
+    Enum.reduce(
+      octopi,
+      %{},
+      fn {pos, octopus}, acc ->
+        case octopus > 9 do
+          true -> Map.put(acc, pos, 0)
+          false -> Map.put(acc, pos, octopus)
+        end
+      end
+    )
+  end
+
   def simulate(octopi, steps, puzzle \\ :puzzle1) do
     simulate(octopi, steps, 0, puzzle)
   end
@@ -25,35 +38,19 @@ defmodule Octopus do
   end
 
   def simulate(octopi, step, flashes, :puzzle2) do
-    {octopi, new_flashes} = step(octopi)
-    if new_flashes == map_size(octopi) do
-      step
-    else
-      simulate(octopi, step + 1, flashes + new_flashes, :puzzle2)
+    octopi_count = map_size(octopi)
+    case step(octopi) do
+      {_, ^octopi_count} -> step
+      {octopi, new_flashes} -> simulate(octopi, step + 1, flashes + new_flashes, :puzzle2)
     end
   end
 
   defp step(octopi) do
-    to_update = Enum.reduce(octopi, [], fn {pos, _}, acc -> [pos | acc] end)
-    substep(octopi, to_update)
+    substep(octopi, Map.keys(octopi))
   end
 
   defp substep(octopi, []) do
-    # flashes = Enum.count(octopi, fn {_, octopus} -> octopus.flashed end)
-    flashes = Enum.count(octopi, fn {_, octopus} -> octopus.energy > 9 end)
-
-    # Reset all octopi that flashed during the step
-    octopi = Enum.reduce(
-      octopi,
-      %{},
-      fn {pos, octopus}, acc ->
-        case octopus.flashed do
-          true -> Map.put(acc, pos, %Octopus{energy: 0, flashed: false})
-          false -> Map.put(acc, pos, octopus)
-        end
-      end
-    )
-    {octopi, flashes}
+    {reset_flashed(octopi), count_flashes(octopi)}
   end
 
   defp substep(octopi, [head | tail]) do
@@ -65,21 +62,11 @@ defmodule Octopus do
   end
 
   def update(octopi, [head | tail]) do
-    # Increment current octopus
-    octopus = Map.get(octopi, head)
-    octopus = %Octopus{energy: octopus.energy + 1, flashed: octopus.flashed}
-
-    # Only flash once per step
-    if octopus.energy == 10 do
-      # Set current octopus as flashed
-      octopi = Map.put(octopi, head, %Octopus{energy: octopus.energy, flashed: true})
-      # Add all neighbors at the back of update queue before updating
-      substep(octopi, tail ++ neighbors(head))
-    else
-      # Update map with incremented octopus
-      octopi = Map.put(octopi, head, octopus)
-      substep(octopi, tail)
+    case Map.get(octopi, head) do
+      # If octopus energy level == 9, increment and add neighbors to update queue
+      9 -> substep(Map.put(octopi, head, 10), tail ++ neighbors(head))
+      # Otherwise, just increment
+      x -> substep(Map.put(octopi, head, x + 1), tail)
     end
   end
-
 end
