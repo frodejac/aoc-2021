@@ -1,22 +1,22 @@
 defmodule Graph do
-  defstruct [:vertices, :adjacency]
+  defstruct [:vertices, :edges, :adjacency]
 
   def neighbors(graph, vertex) do
     graph.adjacency[vertex]
   end
 
   def new(edges) do
-    %Graph{vertices: get_vertices(edges), adjacency: create_adjacency(edges)}
+    %Graph{vertices: get_vertices(edges), edges: edges, adjacency: create_adjacency(edges)}
   end
 
-  def get_vertices(edges) do
+  defp get_vertices(edges) do
     edges
     |> Enum.flat_map(fn edge -> [edge.v1, edge.v2] end)
     |> MapSet.new()
     |> Enum.reduce(%{}, fn vertex, acc -> Map.put(acc, vertex, 0) end)
   end
 
-  def create_adjacency(edges) do
+  defp create_adjacency(edges) do
     Enum.reduce(edges, %{}, fn edge, acc -> add_adjacency(acc, edge) end)
   end
 
@@ -29,29 +29,9 @@ defmodule Graph do
   def visit_vertex(graph, vertex) do
     %Graph{
       vertices: Map.update(graph.vertices, vertex, 0, &(&1 + 1)),
+      edges: graph.edges,
       adjacency: graph.adjacency,
     }
-  end
-
-  def can_visit?(graph, vertex, :puzzle1) do
-    cond do
-      Graph.Vertex.is_start?(vertex) -> false
-      Graph.Vertex.is_big?(vertex) -> true
-      true -> graph.vertices[vertex] < 1
-    end
-  end
-
-  def can_visit?(graph, vertex, :puzzle2) do
-    cond do
-      Graph.Vertex.is_start?(vertex) ->
-        false
-      Graph.Vertex.is_big?(vertex) ->
-        true
-      Enum.any?(graph.vertices, fn {v, visits} -> !Graph.Vertex.is_big?(v) and visits > 1 end) ->
-        graph.vertices[vertex] < 1
-      true ->
-        graph.vertices[vertex] < 2
-    end
   end
 
 end
