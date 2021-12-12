@@ -44,7 +44,7 @@ defmodule Octopus do
   end
 
   defp substep(octopi, [head | tail]) do
-    case Map.get(octopi, head) do
+    case octopi[head] do
       # Skip locations outside map
       nil -> substep(octopi, tail)
       _ -> update(octopi, [head | tail])
@@ -52,7 +52,7 @@ defmodule Octopus do
   end
 
   def update(octopi, [head | tail]) do
-    case Map.get(octopi, head) do
+    case octopi[head] do
       # If octopus energy level == 9, increment and add neighbors to update queue
       9 -> substep(Map.put(octopi, head, 10), tail ++ Geometry.neighbors(head))
       # Otherwise, just increment
