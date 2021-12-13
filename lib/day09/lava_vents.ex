@@ -1,23 +1,27 @@
 defmodule Day09.LavaVents do
-
   alias Day09.Extrema, as: Extrema
 
   def calculate_risk(input) do
     minima = Extrema.find_local_minima_2d(input)
 
     input
-    |> List.flatten
-    |> Enum.reduce(0, fn {{x, y}, value}, acc -> if MapSet.member?(minima, {x, y}), do: acc + value + 1, else: acc end)
+    |> List.flatten()
+    |> Enum.reduce(0, fn {{x, y}, value}, acc ->
+      if MapSet.member?(minima, {x, y}), do: acc + value + 1, else: acc
+    end)
   end
 
   def find_basin_sizes(input) do
     minima = Extrema.find_local_minima_2d(input)
-    heightmap = input
-                |> List.flatten
-                |> Enum.reduce(
-                     %{},
-                     fn {{x, y}, value}, acc -> Map.put(acc, {x, y}, value) end
-                   )
+
+    heightmap =
+      input
+      |> List.flatten()
+      |> Enum.reduce(
+        %{},
+        fn {{x, y}, value}, acc -> Map.put(acc, {x, y}, value) end
+      )
+
     minima
     |> Enum.map(&find_basin_size(&1, heightmap))
   end
@@ -50,5 +54,4 @@ defmodule Day09.LavaVents do
     |> (&flow({x, y + 1}, &1)).()
     |> (&flow({x + 1, y}, &1)).()
   end
-
 end

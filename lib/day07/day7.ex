@@ -1,12 +1,11 @@
 defmodule Day07 do
-
   alias Day07.Crab, as: Crab
 
   def get_input() do
     File.stream!("./input/day07/input.txt")
     |> Stream.flat_map(&String.split(&1, ",", trim: true))
     |> Stream.map(&String.to_integer/1)
-    |> Enum.to_list
+    |> Enum.to_list()
   end
 
   def puzzle1 do

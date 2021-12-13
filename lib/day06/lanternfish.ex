@@ -1,5 +1,4 @@
 defmodule Day06.Lanternfish do
-
   # ---------- NAIVE SOLUTION -----------
   # This solution gets way too slow when number of iterations gets above 100 or so
   def new_naive() do
@@ -24,7 +23,7 @@ defmodule Day06.Lanternfish do
   # Instead of keeping track of the age of individual lanternfish, only keep
   # track of the number of lanternfish at each age
 
-  def new(), do: (for _ <- 0..8, do: 0)
+  def new(), do: for(_ <- 0..8, do: 0)
 
   def new(input) do
     Enum.reduce(input, new(), fn age, acc -> List.update_at(acc, age, &(&1 + 1)) end)
@@ -33,7 +32,8 @@ defmodule Day06.Lanternfish do
   def step([head | tail]) do
     # Cycle list and reset age of the fish that spawned new ones
     spawning_count = Enum.at([head | tail], 0)
-    tail ++ [head]
+
+    (tail ++ [head])
     |> List.update_at(6, &(&1 + spawning_count))
   end
 
@@ -50,6 +50,4 @@ defmodule Day06.Lanternfish do
   def count(population) do
     Enum.reduce(population, 0, fn age, acc -> acc + age end)
   end
-
-
 end

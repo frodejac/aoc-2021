@@ -10,5 +10,4 @@ defmodule Helpers.Geometry do
     upright = {x + 1, y + 1}
     [up, upleft, left, downleft, down, downright, right, upright]
   end
-
 end

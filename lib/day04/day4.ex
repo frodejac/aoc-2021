@@ -8,6 +8,7 @@ defmodule Day04 do
 
   def bingo(boards, number, []) do
     marked_boards = Enum.map(boards, &Board.mark(&1, number))
+
     case Enum.find(marked_boards, fn b -> Board.winning?(b) end) do
       nil -> nil
       winner -> {winner, number}
@@ -16,6 +17,7 @@ defmodule Day04 do
 
   def bingo(boards, number, [head | tail]) do
     marked_boards = Enum.map(boards, &Board.mark(&1, number))
+
     case Enum.find(marked_boards, fn b -> Board.winning?(b) end) do
       nil -> bingo(marked_boards, head, tail)
       winner -> {winner, number}
@@ -26,8 +28,9 @@ defmodule Day04 do
   def ognib(boards, [head | tail]), do: ognib(boards, head, tail)
 
   def ognib(boards, number, [head | tail]) do
-    losers = Enum.map(boards, &Board.mark(&1, number))
-             |> Enum.filter(fn b -> !Board.winning?(b) end)
+    losers =
+      Enum.map(boards, &Board.mark(&1, number))
+      |> Enum.filter(fn b -> !Board.winning?(b) end)
 
     case length(losers) do
       0 -> {Board.mark(Enum.at(boards, 0), number), number}
@@ -36,18 +39,20 @@ defmodule Day04 do
   end
 
   def setup do
-    {numbers, boards} = File.stream!("./input/day04/input.txt")
-                        |> Enum.split(1)
+    {numbers, boards} =
+      File.stream!("./input/day04/input.txt")
+      |> Enum.split(1)
 
-    numbers = Enum.map(numbers, &String.trim/1)
-              |> Enum.at(0)
-              |> String.split(",")
-              |> Enum.map(&String.to_integer(&1, 10))
+    numbers =
+      Enum.map(numbers, &String.trim/1)
+      |> Enum.at(0)
+      |> String.split(",")
+      |> Enum.map(&String.to_integer(&1, 10))
 
-    boards = Enum.chunk_by(boards, fn string -> string == "\n" end)
-              |> Enum.filter(fn list -> Enum.at(list, 0) != "\n" end)
-              |> Enum.map(&Board.parse_board/1)
-
+    boards =
+      Enum.chunk_by(boards, fn string -> string == "\n" end)
+      |> Enum.filter(fn list -> Enum.at(list, 0) != "\n" end)
+      |> Enum.map(&Board.parse_board/1)
 
     {boards, numbers}
   end
@@ -63,5 +68,4 @@ defmodule Day04 do
     |> ognib()
     |> Board.final_score()
   end
-
 end

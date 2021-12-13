@@ -1,5 +1,4 @@
 defmodule Day07.Crab do
-
   defstruct [:x]
 
   def new(x), do: %Day07.Crab{x: x}
@@ -10,7 +9,7 @@ defmodule Day07.Crab do
 
   def movecost(crab, x, :complex) do
     0..abs(crab.x - x)
-    |> Enum.sum
+    |> Enum.sum()
   end
 
   def compare(crab1, crab2) do
@@ -24,7 +23,7 @@ defmodule Day07.Crab do
   def total_cost(crabs, pos, costfunc \\ :simple) do
     crabs
     |> Enum.map(&movecost(&1, pos, costfunc))
-    |> Enum.sum
+    |> Enum.sum()
   end
 
   def cheapest_common_position(crabs, costfunc \\ :simple) do
@@ -37,5 +36,4 @@ defmodule Day07.Crab do
     {_, cost} = cheapest_common_position(crabs, costfunc)
     cost
   end
-
 end

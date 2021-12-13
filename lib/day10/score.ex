@@ -1,5 +1,4 @@
 defmodule Day10.Score do
-
   def score(errors, :puzzle1) when is_list(errors) do
     errors
     |> Enum.map(&score(&1, :puzzle1))
@@ -18,7 +17,7 @@ defmodule Day10.Score do
   def score(added, :puzzle2) when is_list(added) do
     added
     |> Enum.map(&score_line(&1, :puzzle2))
-    |> Enum.sort
+    |> Enum.sort()
     |> (&Enum.at(&1, floor(length(&1) / 2))).()
   end
 
@@ -32,7 +31,6 @@ defmodule Day10.Score do
   end
 
   def score_line(added, :puzzle2) do
-    Enum.reduce(added, 0, fn char, acc -> (acc * 5) + score(char, :puzzle2) end)
+    Enum.reduce(added, 0, fn char, acc -> acc * 5 + score(char, :puzzle2) end)
   end
-
 end

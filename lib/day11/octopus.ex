@@ -1,5 +1,4 @@
 defmodule Octopus do
-
   alias Helpers.Geometry, as: Geometry
 
   defp count_flashes(octopi), do: Enum.count(octopi, fn {_, octopus} -> octopus > 9 end)
@@ -22,6 +21,7 @@ defmodule Octopus do
   end
 
   def simulate(_, 0, flashes, :puzzle1), do: flashes
+
   def simulate(octopi, steps, flashes, :puzzle1) do
     {octopi, new_flashes} = step(octopi)
     simulate(octopi, steps - 1, flashes + new_flashes, :puzzle1)
@@ -29,6 +29,7 @@ defmodule Octopus do
 
   def simulate(octopi, step, flashes, :puzzle2) do
     octopi_count = map_size(octopi)
+
     case step(octopi) do
       {_, ^octopi_count} -> step
       {octopi, new_flashes} -> simulate(octopi, step + 1, flashes + new_flashes, :puzzle2)

@@ -1,5 +1,4 @@
 defmodule Day08.Decoder do
-
   def decode(string, :puzzle1) when is_binary(string) do
     case String.length(string) do
       2 -> 1
@@ -12,18 +11,17 @@ defmodule Day08.Decoder do
 
   def decode(data, :puzzle1) do
     data
-    |> Enum.map(&(&1.output))
+    |> Enum.map(& &1.output)
     |> Enum.reduce([], fn line, acc -> Enum.concat(acc, line) end)
     |> Enum.map(&decode(&1, :puzzle1))
   end
-
 
   # ---------------- PUZZLE 2 --------------------
 
   defp string_to_mapset(string) do
     string
-    |> String.to_charlist
-    |> MapSet.new
+    |> String.to_charlist()
+    |> MapSet.new()
   end
 
   defp decipher_unique(signal) do
@@ -47,14 +45,16 @@ defmodule Day08.Decoder do
     |> Enum.map(&Map.get(signal_map, string_to_mapset(&1)))
     |> Enum.map(&Integer.to_string/1)
     |> Enum.join()
-    |> String.to_integer
+    |> String.to_integer()
   end
 
   def decipher_and_decode(signal, output) do
     # Initialize signal map with well-known values
     signal_map = decipher_unique(signal)
     # Filter out known values
-    remaining_signal = Enum.filter(signal, fn s -> !(string_to_mapset(s) in Map.values(signal_map)) end)
+    remaining_signal =
+      Enum.filter(signal, fn s -> !(string_to_mapset(s) in Map.values(signal_map)) end)
+
     decipher_and_decode(remaining_signal, signal_map, output)
   end
 
@@ -82,10 +82,16 @@ defmodule Day08.Decoder do
     # - Otherwise, it's a 6
 
     charset = string_to_mapset(string)
+
     cond do
-      MapSet.intersection(charset, Map.get(signal_map, 4)) == Map.get(signal_map, 4) -> Map.put(signal_map, 9, charset)
-      MapSet.intersection(charset, Map.get(signal_map, 7)) == Map.get(signal_map, 7) -> Map.put(signal_map, 0, charset)
-      true -> Map.put(signal_map, 6, charset)
+      MapSet.intersection(charset, Map.get(signal_map, 4)) == Map.get(signal_map, 4) ->
+        Map.put(signal_map, 9, charset)
+
+      MapSet.intersection(charset, Map.get(signal_map, 7)) == Map.get(signal_map, 7) ->
+        Map.put(signal_map, 0, charset)
+
+      true ->
+        Map.put(signal_map, 6, charset)
     end
   end
 
@@ -95,11 +101,16 @@ defmodule Day08.Decoder do
     # - If 3 of the segments in 4 are present in the string, it must be a 5
     # - Otherwise, it's a 2
     charset = string_to_mapset(string)
+
     cond do
-      MapSet.intersection(charset, Map.get(signal_map, 1)) == Map.get(signal_map, 1) -> Map.put(signal_map, 3, charset)
-      MapSet.size(MapSet.intersection(charset, Map.get(signal_map, 4))) == 3 -> Map.put(signal_map, 5, charset)
-      true -> Map.put(signal_map, 2, charset)
+      MapSet.intersection(charset, Map.get(signal_map, 1)) == Map.get(signal_map, 1) ->
+        Map.put(signal_map, 3, charset)
+
+      MapSet.size(MapSet.intersection(charset, Map.get(signal_map, 4))) == 3 ->
+        Map.put(signal_map, 5, charset)
+
+      true ->
+        Map.put(signal_map, 2, charset)
     end
   end
-
 end

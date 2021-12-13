@@ -16,8 +16,9 @@ defmodule Day13 do
   end
 
   def get_input() do
-    [dots, folds] = File.read!("./input/day13/input.txt")
-                    |> String.split("\n\n")
+    [dots, folds] =
+      File.read!("./input/day13/input.txt")
+      |> String.split("\n\n")
 
     {get_dots(dots), get_folds(folds)}
   end
@@ -31,7 +32,7 @@ defmodule Day13 do
     for y <- 0..max_y, x <- 0..(max_x + 1) do
       cond do
         MapSet.member?(dots, {x, y}) -> "#"
-        x == (max_x + 1) -> "\n"
+        x == max_x + 1 -> "\n"
         true -> " "
       end
     end
@@ -40,6 +41,7 @@ defmodule Day13 do
 
   def puzzle1 do
     {dots, folds} = get_input()
+
     Day13.Fold.fold(dots, Enum.at(folds, 0))
     |> length
   end

@@ -7,15 +7,15 @@ defmodule Day12 do
 
   def puzzle1 do
     get_input()
-    |> Graph.new
+    |> Graph.new()
     |> CaveMap.find_exit_paths(:puzzle1)
     |> length
   end
 
   def puzzle2 do
     get_input()
-    |> Graph.new
+    |> Graph.new()
     |> CaveMap.find_exit_paths(:puzzle2)
-     |> length
+    |> length
   end
 end

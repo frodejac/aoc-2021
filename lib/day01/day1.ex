@@ -26,6 +26,7 @@ defmodule Day01 do
     cond do
       length(tail) >= window_size - 1 ->
         [Enum.sum([head] ++ Enum.take(tail, window_size - 1))] ++ window(tail, window_size)
+
       True ->
         []
     end

@@ -28,16 +28,15 @@ defmodule Day13.Fold do
 
   def fold({x, y}, fold, :vertical) do
     cond do
-      x > fold.pos -> {x - (2 * (x - fold.pos)), y}
+      x > fold.pos -> {x - 2 * (x - fold.pos), y}
       true -> {x, y}
     end
   end
 
   def fold({x, y}, fold, :horizontal) do
     cond do
-      y > fold.pos -> {x, y - (2 * (y - fold.pos))}
+      y > fold.pos -> {x, y - 2 * (y - fold.pos)}
       true -> {x, y}
     end
   end
-
 end

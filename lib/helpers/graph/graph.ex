@@ -30,8 +30,7 @@ defmodule Graph do
     %Graph{
       vertices: Map.update(graph.vertices, vertex, 0, &(&1 + 1)),
       edges: graph.edges,
-      adjacency: graph.adjacency,
+      adjacency: graph.adjacency
     }
   end
-
 end

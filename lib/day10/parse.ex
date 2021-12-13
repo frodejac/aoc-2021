@@ -1,5 +1,4 @@
 defmodule Day10.Parse do
-
   def parse(string) do
     parse(String.graphemes(string), :queue.new())
   end
@@ -35,6 +34,7 @@ defmodule Day10.Parse do
 
   def end_block(char, stack) do
     {{:value, open}, stack} = :queue.out_r(stack)
+
     case {open, char} do
       {"(", ")"} -> {:ok, stack}
       {"[", "]"} -> {:ok, stack}
@@ -46,6 +46,7 @@ defmodule Day10.Parse do
 
   def generate_end_block(stack) do
     {{:value, open}, stack} = :queue.out_r(stack)
+
     case open do
       "(" -> {stack, ")"}
       "[" -> {stack, "]"}
@@ -66,7 +67,5 @@ defmodule Day10.Parse do
       {stack, new_char} = generate_end_block(stack)
       autocomplete(stack, [new_char | added])
     end
-
   end
-
 end

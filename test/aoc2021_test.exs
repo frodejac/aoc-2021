@@ -11,19 +11,19 @@ defmodule Aoc2021Test do
   end
 
   test "Day 2, Puzzle 1" do
-    assert Aoc2021.solve(:day2, :puzzle1) == 1727835
+    assert Aoc2021.solve(:day2, :puzzle1) == 1_727_835
   end
 
   test "Day 2, Puzzle 2" do
-    assert Aoc2021.solve(:day2, :puzzle2) == 1544000595
+    assert Aoc2021.solve(:day2, :puzzle2) == 1_544_000_595
   end
 
   test "Day 3, Puzzle 1" do
-    assert Aoc2021.solve(:day3, :puzzle1) == 3320834
+    assert Aoc2021.solve(:day3, :puzzle1) == 3_320_834
   end
 
   test "Day 3, Puzzle 2" do
-    assert Aoc2021.solve(:day3, :puzzle2) == 4481199
+    assert Aoc2021.solve(:day3, :puzzle2) == 4_481_199
   end
 
   test "Day 4, Puzzle 1" do
@@ -43,19 +43,19 @@ defmodule Aoc2021Test do
   end
 
   test "Day 6, Puzzle 1" do
-    assert Aoc2021.solve(:day6, :puzzle1) == 365131
+    assert Aoc2021.solve(:day6, :puzzle1) == 365_131
   end
 
   test "Day 6, Puzzle 2" do
-    assert Aoc2021.solve(:day6, :puzzle2) == 1650309278600
+    assert Aoc2021.solve(:day6, :puzzle2) == 1_650_309_278_600
   end
 
   test "Day 7, Puzzle 1" do
-    assert Aoc2021.solve(:day7, :puzzle1) == 348996
+    assert Aoc2021.solve(:day7, :puzzle1) == 348_996
   end
 
   test "Day 7, Puzzle 2" do
-    assert Aoc2021.solve(:day7, :puzzle2) == 98231647
+    assert Aoc2021.solve(:day7, :puzzle2) == 98_231_647
   end
 
   test "Day 8, Puzzle 1" do
@@ -63,7 +63,7 @@ defmodule Aoc2021Test do
   end
 
   test "Day 8, Puzzle 2" do
-    assert Aoc2021.solve(:day8, :puzzle2) == 1019355
+    assert Aoc2021.solve(:day8, :puzzle2) == 1_019_355
   end
 
   test "Day 9, Puzzle 1" do
@@ -71,15 +71,15 @@ defmodule Aoc2021Test do
   end
 
   test "Day 9, Puzzle 2" do
-    assert Aoc2021.solve(:day9, :puzzle2) == 1564640
+    assert Aoc2021.solve(:day9, :puzzle2) == 1_564_640
   end
 
   test "Day 10, Puzzle 1" do
-    assert Aoc2021.solve(:day10, :puzzle1) == 318099
+    assert Aoc2021.solve(:day10, :puzzle1) == 318_099
   end
 
   test "Day 10, Puzzle 2" do
-    assert Aoc2021.solve(:day10, :puzzle2) == 2389738699
+    assert Aoc2021.solve(:day10, :puzzle2) == 2_389_738_699
   end
 
   test "Day 11, Puzzle 1" do
@@ -95,7 +95,7 @@ defmodule Aoc2021Test do
   end
 
   test "Day 12, Puzzle 2" do
-    assert Aoc2021.solve(:day12, :puzzle2) == 131228
+    assert Aoc2021.solve(:day12, :puzzle2) == 131_228
   end
 
   test "Day 13, Puzzle 1" do
@@ -106,12 +106,13 @@ defmodule Aoc2021Test do
     assert Aoc2021.solve(
              :day13,
              :puzzle2
-           ) == "###  #### #  # #    #  #  ##  #### ### \n" <>
-                "#  # #    # #  #    # #  #  # #    #  #\n" <>
-                "#  # ###  ##   #    ##   #    ###  #  #\n" <>
-                "###  #    # #  #    # #  #    #    ### \n" <>
-                "#    #    # #  #    # #  #  # #    #   \n" <>
-                "#    #    #  # #### #  #  ##  #    #   \n"
+           ) ==
+             "" <>
+               "###  #### #  # #    #  #  ##  #### ### \n" <>
+               "#  # #    # #  #    # #  #  # #    #  #\n" <>
+               "#  # ###  ##   #    ##   #    ###  #  #\n" <>
+               "###  #    # #  #    # #  #    #    ### \n" <>
+               "#    #    # #  #    # #  #  # #    #   \n" <>
+               "#    #    #  # #### #  #  ##  #    #   \n"
   end
-
 end

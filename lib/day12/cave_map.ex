@@ -11,8 +11,9 @@ defmodule CaveMap do
   end
 
   def explore(graph, current_vertex, paths, puzzle \\ :puzzle1) do
-    unvisited = Graph.neighbors(graph, current_vertex)
-                |> Enum.filter(fn vertex -> can_visit?(graph, vertex, puzzle) end)
+    unvisited =
+      Graph.neighbors(graph, current_vertex)
+      |> Enum.filter(fn vertex -> can_visit?(graph, vertex, puzzle) end)
 
     case length(unvisited) do
       0 -> paths
@@ -41,10 +42,13 @@ defmodule CaveMap do
     cond do
       is_start?(vertex) ->
         false
+
       is_big?(vertex) ->
         true
+
       Enum.any?(graph.vertices, fn {v, visits} -> !is_big?(v) and visits > 1 end) ->
         graph.vertices[vertex] < 1
+
       true ->
         graph.vertices[vertex] < 2
     end
@@ -53,5 +57,4 @@ defmodule CaveMap do
   def is_start?(vertex), do: vertex == "start"
   def is_end?(vertex), do: vertex == "end"
   def is_big?(vertex), do: String.match?(vertex, ~r/[A-Z]+/)
-
 end
