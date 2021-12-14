@@ -3,8 +3,11 @@ defmodule Day14 do
     raw_rules
     |> String.split("\n", trim: true)
     |> Enum.map(&String.split(&1, " -> "))
-    |> Enum.reduce(%{}, fn [pair, insertion_element], acc ->
-      Map.put(acc, List.to_tuple(String.graphemes(pair)), insertion_element)
+    |> Enum.map(fn [pair, insertion_element] ->
+      [List.to_tuple(String.graphemes(pair)), insertion_element]
+    end)
+    |> Enum.reduce(%{}, fn [{first, second}, insertion_element], acc ->
+      Map.put(acc, {first, second}, [{first, insertion_element}, {insertion_element, second}])
     end)
   end
 
@@ -18,13 +21,11 @@ defmodule Day14 do
 
   def puzzle1 do
     {template, rules} = get_input()
+    Day14.Polymer.run_polymerization(template, rules, 10)
+  end
 
-    {{_, min}, {_, max}} =
-      Day14.Polymer.polymerize(template, rules, 10)
-      |> String.graphemes()
-      |> Enum.reduce(%{}, fn s, acc -> Map.update(acc, s, 1, &(&1 + 1)) end)
-      |> Enum.min_max_by(fn {_, value} -> value end)
-
-    max - min
+  def puzzle2 do
+    {template, rules} = get_input()
+    Day14.Polymer.run_polymerization(template, rules, 40)
   end
 end
