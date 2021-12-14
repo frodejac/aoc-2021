@@ -27,6 +27,7 @@ defmodule Aoc2021 do
       {:day12, :puzzle2} -> Day12.puzzle2()
       {:day13, :puzzle1} -> Day13.puzzle1()
       {:day13, :puzzle2} -> Day13.puzzle2()
+      {:day14, :puzzle1} -> Day14.puzzle1()
     end
   end
 end

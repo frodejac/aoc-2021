@@ -115,4 +115,8 @@ defmodule Aoc2021Test do
                "#    #    # #  #    # #  #  # #    #   \n" <>
                "#    #    #  # #### #  #  ##  #    #   \n"
   end
+
+  test "Day 14, Puzzle 1" do
+    assert Aoc2021.solve(:day14, :puzzle1) == 2947
+  end
 end
