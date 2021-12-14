@@ -45,10 +45,12 @@ defmodule Day14.Polymer do
   end
 
   defp polymerize(pairs, rules, n) do
-    pairs
-    |> Enum.reduce(%{}, fn {pair, count}, acc -> update(acc, rules, pair, count) end)
+    step(pairs, rules)
     |> polymerize(rules, n - 1)
   end
+
+  defp step(pairs, rules),
+    do: Enum.reduce(pairs, %{}, fn {pair, count}, acc -> update(acc, rules, pair, count) end)
 
   defp update(pairs, rules, pair, count) do
     [first, second] = rules[pair]
