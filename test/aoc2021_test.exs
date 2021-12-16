@@ -121,6 +121,14 @@ defmodule Aoc2021Test do
   end
 
   test "Day 14, Puzzle 2" do
-    assert Aoc2021.solve(:day14, :puzzle2) == 3232426226464
+    assert Aoc2021.solve(:day14, :puzzle2) == 3_232_426_226_464
+  end
+
+  test "Day 15, Puzzle 1" do
+    assert Aoc2021.solve(:day15, :puzzle1) == 702
+  end
+
+  test "Day 15, Puzzle 2" do
+    assert Aoc2021.solve(:day15, :puzzle2) == 2955
   end
 end
