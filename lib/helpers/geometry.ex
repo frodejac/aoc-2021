@@ -1,4 +1,16 @@
 defmodule Helpers.Geometry do
+  def convkernel({x, y}) do
+    upleft = {x - 1, y - 1}
+    up = {x, y - 1}
+    upright = {x + 1, y - 1}
+    left = {x - 1, y}
+    right = {x + 1, y}
+    downleft = {x - 1, y + 1}
+    down = {x, y + 1}
+    downright = {x + 1, y + 1}
+    [upleft, up, upright, left, {x, y}, right, downleft, down, downright]
+  end
+
   def neighbors({x, y}) do
     up = {x, y + 1}
     upleft = {x - 1, y + 1}
