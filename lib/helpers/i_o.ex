@@ -19,9 +19,29 @@ defmodule Helpers.IO do
     |> Stream.map(&Enum.with_index/1)
     |> Stream.with_index()
     |> Enum.flat_map(fn {list, y_idx} ->
-      Enum.reduce(list, [], fn {value, x_idx}, acc ->
-        List.insert_at(acc, -1, {{x_idx, y_idx}, value})
-      end)
+      Enum.reduce(
+        list,
+        [],
+        fn {value, x_idx}, acc ->
+          List.insert_at(acc, -1, {{x_idx, y_idx}, value})
+        end
+      )
+    end)
+    |> Enum.reduce(%{}, fn {{x, y}, value}, acc -> Map.put(acc, {x, y}, value) end)
+  end
+
+  def read_as_2d_map_of_strings(filepath) do
+    stream_list_of_graphemes(filepath)
+    |> Stream.map(&Enum.with_index/1)
+    |> Stream.with_index()
+    |> Enum.flat_map(fn {list, y_idx} ->
+      Enum.reduce(
+        list,
+        [],
+        fn {value, x_idx}, acc ->
+          List.insert_at(acc, -1, {{x_idx, y_idx}, value})
+        end
+      )
     end)
     |> Enum.reduce(%{}, fn {{x, y}, value}, acc -> Map.put(acc, {x, y}, value) end)
   end
