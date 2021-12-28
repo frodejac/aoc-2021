@@ -31,7 +31,6 @@ defmodule Day23 do
     get_input()
     |> AmphipodGame.new()
     |> AmphipodGame.find_cheapest_solution()
-
   end
 
   def puzzle2 do
